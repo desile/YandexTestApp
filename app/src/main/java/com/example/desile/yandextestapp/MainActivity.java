@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.example.desile.yandextestapp.artists.Artist;
 import com.example.desile.yandextestapp.artists.ArtistMapper;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -29,6 +31,12 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         try {
             artists = new ArtistMapper().getArtists(MainActivity.this, "http://cache-default04g.cdn.yandex.net/download.cdn.yandex.net/mobilization-2016/artists.json");
+            Collections.sort(artists, new Comparator<Artist>() {
+                @Override
+                public int compare(Artist lhs, Artist rhs) {
+                    return lhs.getName().compareToIgnoreCase(rhs.getName());
+                }
+            });
 
             musicList = new MusicList(MainActivity.this, artists);
             list = (ListView) findViewById(R.id.list);
